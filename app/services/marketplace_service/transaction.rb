@@ -265,11 +265,11 @@ module MarketplaceService
           .or_else(nil)
       end
 
-      def transactions_for_community_sorted_by_column(community_id, sort_column, sort_direction, limit, offset)
+      def transactions_for_community_sorted_by_column(community_id, sort_column, sort_direction, page, per_page)
         transactions = TransactionModel
           .where(:community_id => community_id)
           .includes(:listing)
-          .paginate(:page => (offset + 1), :per_page => limit)
+          .paginate(:page => page, :per_page => per_page)
           .order("#{sort_column} #{sort_direction}")
 
         transactions = transactions.map { |txn|
